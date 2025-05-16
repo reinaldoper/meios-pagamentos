@@ -126,6 +126,7 @@ export default function PagamentosPage() {
         setPagamentos((prev) =>
           prev.map((p) => (p.id === id ? { ...p, status } : p))
         );
+        toast.success("Status atualizado com sucesso!");
       } else {
         toast.error("Erro ao atualizar o saldo.");
       }

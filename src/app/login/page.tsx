@@ -7,6 +7,8 @@ import { FaEnvelope, FaLock } from "react-icons/fa";
 import Player from "lottie-react";
 import animationData from "../../../public/animations/login.json";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
+
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,7 +19,7 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await login(email, password);
-      document.cookie = `__session=true; path=/`;
+      Cookies.set("__session", "true", { path: "/" });
       toast.success("Sucesso ao logar!");
       router.push("/dashboard");
     } catch (err: Error | unknown) {
