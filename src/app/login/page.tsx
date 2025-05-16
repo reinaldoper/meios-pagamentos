@@ -6,23 +6,22 @@ import { useRouter } from "next/navigation";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import Player from "lottie-react";
 import animationData from "../../../public/animations/login.json";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await login(email, password);
       document.cookie = `__session=true; path=/`;
+      toast.success("Sucesso ao logar!");
       router.push("/dashboard");
     } catch (err: Error | unknown) {
-      setError(
-        err instanceof Error ? err.message : "Ocorreu um erro ao fazer login."
-      );
+      toast.error(err instanceof Error ? err.message : "Ocorreu um erro.");
     }
   };
 
@@ -43,7 +42,6 @@ export default function LoginPage() {
         <h1 className="text-3xl font-bold text-center text-blue-700 mb-4">
           Login
         </h1>
-        {error && <p className="text-red-500 text-center">{error}</p>}
 
         <div className="relative">
           <input

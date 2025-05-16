@@ -6,6 +6,7 @@ import { getUser } from "@/lib/firestore";
 import Player from "lottie-react";
 import animationData from "../../../../public/animations/profile.json";
 import { UserType } from "@/app/types/types";
+import { toast } from "react-toastify";
 
 /**
  * ProfilePage component displays the user's profile information.
@@ -28,7 +29,6 @@ export default function ProfilePage() {
 
 
   const [userData, setUserData] = useState<UserType>();
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function ProfilePage() {
         };
         setUserData(transformedUser);
       } catch (error) {
-        console.error(error);
+        toast.error(error instanceof Error ? error.message : "Ocorreu um erro.");
         router.push("/login");
       }
     };
@@ -73,13 +73,13 @@ export default function ProfilePage() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error);
+        toast.error(data.message);
       }
 
-      setError(data.message);
+      toast.success("Admin criado com sucesso!");
     } catch (error) {
       console.error(error);
-      setError("Ocorreu um erro ao definir role de admin.");
+      toast.error("Erro ao tornar Admin!");
     }
   }
 
@@ -97,7 +97,6 @@ export default function ProfilePage() {
         <h1 className="text-4xl font-semibold text-blue-600 mb-6 text-center">
           Perfil do Usuário
         </h1>
-        {error && <p className="text-red-500 text-center">{error}</p>}
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <strong className="text-lg text-gray-700">Email:</strong>

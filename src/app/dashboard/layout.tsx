@@ -40,7 +40,7 @@ export default async function DashboardLayout({
           <button className="bg-red-500 px-4 py-1 rounded">Sair</button>
         </form>
       </nav>
-      <main className="flex-1 p-4">{children}</main>
+      <main className="flex-1">{children}</main>
     </div>
   );
 }

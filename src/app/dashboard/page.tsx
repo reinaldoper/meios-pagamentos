@@ -70,7 +70,7 @@ export default function DashboardPage() {
   }, [router]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center">
+    <div className="min-h-screen w-full bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center">
       <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-lg text-center">
         <div className="w-full justify-center items-center max-w-xs mx-auto mb-6">
           <Player

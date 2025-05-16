@@ -148,3 +148,10 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ```bash
 npm run dev
 ```
+---
+
+![payments](./public/tela.png)
+
+---
+
+![admin](./public/tela1.png)

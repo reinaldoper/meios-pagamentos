@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createPaymentRequest } from "@/lib/firestore";
 import { SendHorizonal, FileText, DollarSign } from "lucide-react";
+import { toast } from "react-toastify";
 
 /**
  * NovaSolicitacaoPage component allows users to create a new payment request.
@@ -23,9 +24,10 @@ export default function NovaSolicitacaoPage() {
 
     try {
       await createPaymentRequest(amount, description);
+      toast.success("Solicitação criada com sucesso!");
       router.push("/dashboard/payments");
     } catch (error: Error | unknown) {
-      alert(error ? error : "Ocorreu um erro ao criar a solicitação.");
+      toast.error(error instanceof Error ? error.message : "Ocorreu um erro.");
       return;
     }
   };
