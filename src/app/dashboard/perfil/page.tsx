@@ -62,7 +62,7 @@ export default function ProfilePage() {
     );
   }
 
-  async function tornarAdmin(uid: string) {
+  async function handleAdmin(uid: string) {
     try {
       const res = await fetch("/api/set-admin", {
         method: "POST",
@@ -121,7 +121,7 @@ export default function ProfilePage() {
             <div className="my-6">
               <h2 className="text-xl font-semibold mb-2">Gerenciar Usuários</h2>
               <button
-                onClick={() => tornarAdmin(userData.uid)}
+                onClick={() => handleAdmin(userData.uid)}
                 className="bg-blue-600 text-white px-4 py-2 rounded"
               >
                 Tornar Admin
