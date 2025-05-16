@@ -4,11 +4,16 @@ import { useState } from "react";
 import { login } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { FaEnvelope, FaLock } from "react-icons/fa";
-import Player from "lottie-react";
+import dynamic from "next/dynamic";
 import animationData from "../../../public/animations/login.json";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 
+// ⛔️ Substitua este import direto
+// import Player from "lottie-react";
+
+// ✅ Use dynamic import com SSR desativado
+const Player = dynamic(() => import("lottie-react"), { ssr: false });
 
 export default function LoginPage() {
   const router = useRouter();
@@ -27,9 +32,6 @@ export default function LoginPage() {
     }
   };
 
-  //testes vercel
-  // console.log(process.env.NEXT_PUBLIC_VERCEL_ENV);
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 to-purple-200">
       <form
@@ -44,7 +46,7 @@ export default function LoginPage() {
             style={{ height: "200px", width: "200px" }}
           />
         </div>
-        <h1 className="text-3xl font-bold text-center text-blue-700 mb-4">
+          <h1 className="text-3xl font-bold text-center text-blue-700 mb-4">
           Login
         </h1>
 
