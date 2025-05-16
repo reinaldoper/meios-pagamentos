@@ -2,16 +2,27 @@
 
 import { useEffect, useState } from 'react';
 import { getUserPaymentRequests, updatePaymentRequestStatus } from '@/lib/firestore';
+import { PaymentRequest } from '@/app/types/types';
 //import { useRouter } from 'next/navigation';
 
+/**
+ * AdminRequestsPage component displays a list of payment requests for administrators.
+ *
+ * This component:
+ * - Fetches and displays payment requests from the database.
+ * - Allows administrators to approve or reject payment requests.
+ * - Shows a loading indicator while the data is being fetched.
+ * - Updates the request status in real-time upon action.
+ *
+ * State:
+ * - `requests`: Stores the list of payment requests fetched from Firestore.
+ * - `loading`: Indicates if data fetching is in progress.
+ *
+ * Side Effects:
+ * - Fetches payment requests on component mount.
+ */
+
 export default function AdminRequestsPage() {
-  interface PaymentRequest {
-    id: string;
-    amount: number;
-    description: string;
-    status: string;
-    createdAt: { seconds: number };
-  }
 
   const [requests, setRequests] = useState<PaymentRequest[]>([]);
   const [loading, setLoading] = useState(true);

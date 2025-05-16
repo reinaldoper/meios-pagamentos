@@ -3,6 +3,18 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+/**
+ * DashboardLayout is a Next.js layout component that wraps the dashboard pages.
+ * It provides a shared navigation bar and ensures that the user is authenticated
+ * before rendering the page.
+ *
+ * If the user is not authenticated, it redirects them to the login page.
+ *
+ * The navigation bar includes links to the home page, payments page, profile page,
+ * and the new payment request page.
+ *
+ * The navigation bar also includes a logout button.
+ */
 export default async function DashboardLayout({
   children,
 }: {

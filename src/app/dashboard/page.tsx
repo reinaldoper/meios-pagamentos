@@ -9,6 +9,24 @@ import Player from "lottie-react";
 import animationData from "../../../public/animations/panel.json";
 import { UserType } from "../types/types";
 
+/**
+ * DashboardPage component displays the user's profile information and wallet balance,
+ * and a button to access the wallet or admin page, depending on the user's role.
+ *
+ * This component:
+ * - Checks the user's authentication on mount and redirects to login if not authenticated.
+ * - Fetches user data and wallet balance on mount.
+ * - Displays a loading spinner while data is being fetched.
+ * - Shows the user's email and role, and a button to access the wallet or admin page.
+ *
+ * State:
+ * - `user`: The logged-in user.
+ * - `balance`: The user's wallet balance.
+ * - `userData`: The user's profile information.
+ *
+ * Side Effects:
+ * - Checks the user's authentication on component mount and fetches user data and wallet balance.
+ */
 export default function DashboardPage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);

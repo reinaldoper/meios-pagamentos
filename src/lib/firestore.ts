@@ -71,10 +71,29 @@ export async function getUserWalletBalance(uid: string) {
   };
 }
 
-export async function updateWalletBalance(uid: string, balance: number) {
+export async function updateWalletBalance(uid: string, valueToSubtract: number) {
+  if (!userRef?.uid) {
+    throw new Error("Usuário não autenticado.");
+  }
   const walletRef = doc(db, "wallets", uid);
-  await updateDoc(walletRef, { balance });
+  const walletSnap = await getDoc(walletRef);
+
+  if (!walletSnap.exists()) {
+    throw new Error("Carteira não encontrada.");
+  }
+
+  const walletData = walletSnap.data();
+
+  if (walletData.balance < valueToSubtract) {
+    return false; 
+  }
+
+  const newBalance = walletData.balance - valueToSubtract;
+
+  await updateDoc(walletRef, { balance: newBalance });
+  return true;
 }
+
 
 export async function createPaymentRequest(
   amount: number,
@@ -128,6 +147,7 @@ export async function getUserPaymentRequests(uid: string) {
       description: string;
       status: string;
       createdAt: { seconds: number; nanoseconds: number };
+      uid: string;
     }[];
   } catch (error: Error | unknown) {
     throw new Error(
@@ -143,4 +163,26 @@ export async function updatePaymentRequestStatus(
 ) {
   const requestRef = doc(db, "payment_requests", requestId);
   await updateDoc(requestRef, { status });
+}
+
+export async function createWallet(balance: number = 0) {
+  if (!userRef?.uid) {
+    throw new Error("Usuário nao autenticado.");
+  }
+  const walletRef = doc(db, "wallets", userRef?.uid);
+
+  await setDoc(walletRef, {
+    uid: userRef?.uid,
+    balance,
+    createdAt: Timestamp.now(),
+  });
+}
+
+export async function getPaymentRequests(uid: string) {
+  if (!userRef?.uid) {
+    throw new Error("Usuário nao autenticado.");
+  }
+
+  const paymentRef = doc(db, "payment_requests", uid);
+  return paymentRef;
 }

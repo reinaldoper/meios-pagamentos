@@ -5,17 +5,35 @@ import {
   getUserPaymentRequests,
   getUser,
   updatePaymentRequestStatus,
+  updateWalletBalance,
 } from "@/lib/firestore";
 import { auth } from "@/lib/firebase";
 import { redirect } from "next/navigation";
 import Player from "lottie-react";
 import animationData from "../../../../public/animations/request.json";
+import { FiCheck, FiX } from "react-icons/fi";
+import { toast } from "react-toastify";
 
+/**
+ * Recebe um timestamp do Firestore e retorna uma string representando a data
+ * em portugu s brasileiro, no formato "dd/mm/aaaa".
+ *
+ * @param timestamp - Timestamp do Firestore.
+ * @returns Data em portugu s brasileiro, no formato "dd/mm/aaaa".
+ */
 function formatDate(timestamp: { seconds: number; nanoseconds: number }) {
   const date = new Date(timestamp.seconds * 1000);
   return date.toLocaleDateString("pt-BR");
 }
 
+/**
+ * P gina de solicita es de pagamento do usu rio.
+ *
+ * Exibe uma lista de todas as solicita es de pagamento do usu rio,
+ * incluindo descri o, valor e status.
+ *
+ * Se o usu rio for administrador, ele pode aprovar ou rejeitar solicita es.
+ */
 export default function PagamentosPage() {
   interface User {
     uid: string;
@@ -32,6 +50,7 @@ export default function PagamentosPage() {
       description: string;
       status: string;
       createdAt: { seconds: number; nanoseconds: number };
+      uid: string;
     }[]
   >([]);
 
@@ -56,7 +75,6 @@ export default function PagamentosPage() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      console.log(userData);
       try {
         if (userData) {
           const res = await getUserPaymentRequests(userData.uid);
@@ -95,17 +113,26 @@ export default function PagamentosPage() {
     );
   }
 
-  const handleStatusUpdate = async (id: string, status: string) => {
+  const handleStatusUpdate = async (
+    uid: string,
+    status: string,
+    balance: number = 0,
+    id: string
+  ) => {
     try {
-      await updatePaymentRequestStatus(id, status);
-      setPagamentos((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, status } : p))
-      );
+      const result = await updateWalletBalance(uid, balance);
+      if (result) {
+        await updatePaymentRequestStatus(id, status);
+        setPagamentos((prev) =>
+          prev.map((p) => (p.id === id ? { ...p, status } : p))
+        );
+      } else {
+        toast.error("Erro ao atualizar o saldo.");
+      }
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Ocorreu um erro.");
+      toast.error(error instanceof Error ? error.message : "Ocorreu um erro.");
     }
   };
-  
 
   return (
     <div className="max-w-4xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6">
@@ -151,16 +178,27 @@ export default function PagamentosPage() {
               {pagamento.status === "pending" && userData.role === "admin" && (
                 <div className="mt-2 flex gap-2">
                   <button
-                    onClick={() => handleStatusUpdate(pagamento.id, "approved")}
+                    onClick={() =>
+                      handleStatusUpdate(
+                        pagamento.uid,
+                        "approved",
+                        pagamento.amount,
+                        pagamento.id
+                      )
+                    }
                     className="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"
                   >
-                    Aprovar
+                   <div className="flex gap-2">
+                    <FiCheck />Aprovar
+                   </div>
                   </button>
                   <button
-                    onClick={() => handleStatusUpdate(pagamento.id, "rejected")}
+                    onClick={() => handleStatusUpdate(pagamento.uid, "rejected", 0, pagamento.id)}
                     className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
                   >
-                    Rejeitar
+                    <div className="flex gap-2">
+                    <FiX />Rejeitar
+                    </div>
                   </button>
                 </div>
               )}

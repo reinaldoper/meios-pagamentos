@@ -7,6 +7,23 @@ import Player from "lottie-react";
 import animationData from "../../../../public/animations/profile.json";
 import { UserType } from "@/app/types/types";
 
+/**
+ * ProfilePage component displays the user's profile information.
+ * 
+ * This component:
+ * - Fetches user data on mount and redirects to login if not authenticated.
+ * - Displays a loading spinner while fetching data.
+ * - Shows the user's email, role, and registration date.
+ * - Allows admin users to manage other users and promote them to admin.
+ * 
+ * State:
+ * - `userData`: Contains the user's profile information.
+ * - `error`: Holds any error messages encountered during data fetching or admin promotion.
+ * 
+ * Side Effects:
+ * - Fetches user data and checks authentication on component mount.
+ */
+
 export default function ProfilePage() {
 
 

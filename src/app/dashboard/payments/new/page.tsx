@@ -5,6 +5,14 @@ import { useRouter } from "next/navigation";
 import { createPaymentRequest } from "@/lib/firestore";
 import { SendHorizonal, FileText, DollarSign } from "lucide-react";
 
+/**
+ * NovaSolicitacaoPage component allows users to create a new payment request.
+ * It provides a form to input the payment amount and description.
+ * On submission, it calls the createPaymentRequest function to add the request
+ * to the database and redirects the user to the payments dashboard.
+ * The submit button is disabled if the amount or description is not provided.
+ */
+
 export default function NovaSolicitacaoPage() {
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState("");
