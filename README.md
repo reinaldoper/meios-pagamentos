@@ -18,6 +18,8 @@ Este projeto é um painel de usuário desenvolvido com **Next.js 13+**, utilizan
 
 6. O admin então revisa a solicitação e pode aprovar (accept) ou rejeitar (reject) a transação.
 
+---
+
 ## 🔥 Funcionalidades
 
 - Login com Firebase Authentication
@@ -42,7 +44,7 @@ Este projeto é um painel de usuário desenvolvido com **Next.js 13+**, utilizan
 
 ### Esttrutura do projeto
 
-``èstrutura
+```bash
 ├── public
 │   ├── animations
 │   │   ├── login.json
