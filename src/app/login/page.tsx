@@ -28,6 +28,7 @@ export default function LoginPage() {
   };
 
   //testes vercel
+  // console.log(process.env.NEXT_PUBLIC_VERCEL_ENV);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 to-purple-200">
