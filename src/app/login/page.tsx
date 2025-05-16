@@ -9,10 +9,7 @@ import animationData from "../../../public/animations/login.json";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 
-// ⛔️ Substitua este import direto
-// import Player from "lottie-react";
 
-// ✅ Use dynamic import com SSR desativado
 const Player = dynamic(() => import("lottie-react"), { ssr: false });
 
 export default function LoginPage() {
