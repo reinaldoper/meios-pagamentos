@@ -20,10 +20,16 @@ const serviceAccount = {
 
 
 if (!getApps().length) {
-  initializeApp({
-    credential: cert(serviceAccount as ServiceAccount),
-  });
+  try {
+    initializeApp({
+      credential: cert(serviceAccount as ServiceAccount),
+    });
+  } catch (error) {
+    console.error("Erro ao inicializar Firebase Admin:", error);
+    throw error;
+  }
 }
+
 
 export default async function handler(
   req: NextApiRequest,
