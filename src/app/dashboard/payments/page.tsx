@@ -9,10 +9,11 @@ import {
 } from "@/lib/firestore";
 import { auth } from "@/lib/firebase";
 import { redirect } from "next/navigation";
-import Player from "lottie-react";
+const Player = dynamic(() => import("lottie-react"), { ssr: false });
 import animationData from "../../../../public/animations/request.json";
 import { FiCheck, FiX } from "react-icons/fi";
 import { toast } from "react-toastify";
+import dynamic from "next/dynamic";
 
 /**
  * Recebe um timestamp do Firestore e retorna uma string representando a data

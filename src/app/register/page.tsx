@@ -4,10 +4,11 @@ import { useState } from 'react';
 import { register } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
-import Player from "lottie-react";
+const Player = dynamic(() => import("lottie-react"), { ssr: false });
 import animationData from "../../../public/animations/register.json";
 import { toast } from 'react-toastify';
 import Cookies from "js-cookie";
+import dynamic from 'next/dynamic';
 
 export default function RegisterPage() {
   const router = useRouter();

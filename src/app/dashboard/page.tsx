@@ -5,9 +5,10 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { getUser, getUserWallet } from "@/lib/firestore";
 import { FiUser, FiMenu } from "react-icons/fi";
-import Player from "lottie-react";
+const Player = dynamic(() => import("lottie-react"), { ssr: false });
 import animationData from "../../../public/animations/panel.json";
 import { UserType } from "../types/types";
+import dynamic from "next/dynamic";
 
 /**
  * DashboardPage component displays the user's profile information and wallet balance,

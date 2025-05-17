@@ -5,8 +5,9 @@ import { getAllWallets, getUserWalletBalance } from "@/lib/firestore";
 import { auth } from "@/lib/firebase";
 import { redirect } from "next/navigation";
 import { UserType, Wallet } from "@/app/types/types";
-import Player from "lottie-react";
+const Player = dynamic(() => import("lottie-react"), { ssr: false });
 import animationData from "../../../../public/animations/amount.json";
+import dynamic from "next/dynamic";
 
 /**
  * Component for displaying the admin page where all user wallets and their balances are listed.

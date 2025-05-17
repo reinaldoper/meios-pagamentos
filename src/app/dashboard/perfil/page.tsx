@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getUser } from "@/lib/firestore";
-import Player from "lottie-react";
+const Player = dynamic(() => import("lottie-react"), { ssr: false });
 import animationData from "../../../../public/animations/profile.json";
 import { UserType } from "@/app/types/types";
 import { toast } from "react-toastify";
+import dynamic from "next/dynamic";
 
 /**
  * ProfilePage component displays the user's profile information.
