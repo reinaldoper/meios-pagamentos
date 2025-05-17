@@ -13,7 +13,7 @@ export default function RegisterPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+//teste para netlify
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
