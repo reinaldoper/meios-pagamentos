@@ -4,6 +4,10 @@ Este projeto é um painel de usuário desenvolvido com **Next.js 13+**, utilizan
 
 ---
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/934ccc42-6524-44cf-bf55-b6e50d70f4e2/deploy-status)](https://app.netlify.com/projects/meios-de-pagamentos/deploys)
+
+---
+
 ## Como funcionam as aprovações de pagamento em carteiras digitais
 
 1. Em sistemas de carteira digital, o admin normalmente tem funções de gestão, auditoria e controle das transações, podendo aprovar ou rejeitar pagamentos feitos por usuários.
