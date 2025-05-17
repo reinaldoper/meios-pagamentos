@@ -86,7 +86,7 @@ export default function DashboardPage() {
         </h1>
         {user && (
           <p className="mb-4 text-lg text-gray-700">
-            Bem-vindo, <strong>{user.email}</strong>!
+            Bem-vindo, <strong className="text-sm sm:text-base">{user.email}</strong>!
           </p>
         )}
         {balance !== null && userData?.role === "user" &&  (

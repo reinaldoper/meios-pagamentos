@@ -147,7 +147,7 @@ export default function PagamentosPage() {
         />
       </div>
       <h1 className="text-2xl font-bold mb-6 text-blue-800">
-        Minhas Solicitações de Pagamento
+        Solicitações de Pagamento
       </h1>
 
       {pagamentos.length === 0 ? (

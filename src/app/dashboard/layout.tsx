@@ -31,7 +31,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen flex flex-col">
-      <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
+      <nav className="bg-blue-600 text-white p-4 flex flex-wrap justify-between items-center">
         <div className="flex gap-4">
           <Link href="/dashboard">🏠 Início</Link>
           <Link href="/dashboard/payments">💳 Pagamentos</Link>

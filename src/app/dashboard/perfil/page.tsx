@@ -99,20 +99,20 @@ export default function ProfilePage() {
           Perfil do Usuário
         </h1>
         <div className="space-y-6">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center flex-wrap">
             <strong className="text-lg text-gray-700">Email:</strong>
-            <p className="text-xl text-blue-700 font-medium">
+            <p className="text-sm sm:text-base text-blue-700 font-medium">
               {userData?.email}
             </p>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center flex-wrap">
             <strong className="text-lg text-gray-700">Role:</strong>
             <p className="text-xl text-blue-700 font-medium">
               {userData?.role}
             </p>
           </div>
 
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center flex-wrap">
             <strong className="text-lg text-gray-700">Data de Cadastro:</strong>
             <p className="text-xl text-blue-700 font-medium">
               {userData?.createdAt.toLocaleString()}
