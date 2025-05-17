@@ -7,6 +7,7 @@ import { FaEnvelope, FaLock } from 'react-icons/fa';
 import Player from "lottie-react";
 import animationData from "../../../public/animations/register.json";
 import { toast } from 'react-toastify';
+import Cookies from "js-cookie";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function RegisterPage() {
     e.preventDefault();
     try {
       await register(email, password);
-      document.cookie = `__session=true; path=/`; 
+      Cookies.set("__session", "true", { path: "/" });
       toast.success('Sucesso ao criar conta!');
       router.push('/dashboard');
     } catch (err: Error | unknown) {
