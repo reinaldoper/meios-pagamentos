@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { createWallet } from "@/lib/firestore";
 import { toast } from "react-toastify";
-import Player from "lottie-react";
+const Player = dynamic(() => import("lottie-react"), { ssr: false });
 import animationData from "../../../../public/animations/wallet.json";
+import dynamic from "next/dynamic";
 
 export default function CreateWalletPage() {
   const [balance, setBalance] = useState("0");
