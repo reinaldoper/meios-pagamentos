@@ -74,7 +74,7 @@ export default function ProfilePage() {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.message);
+        toast.error(data.error);
       }
 
       toast.success("Admin criado com sucesso!");
