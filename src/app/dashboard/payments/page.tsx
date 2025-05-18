@@ -6,12 +6,13 @@ import {
   getUser,
   updatePaymentRequestStatus,
   updateWalletBalance,
+  deletePaymentRequest,
 } from "@/lib/firestore";
 import { auth } from "@/lib/firebase";
 import { redirect } from "next/navigation";
 const Player = dynamic(() => import("lottie-react"), { ssr: false });
 import animationData from "../../../../public/animations/request.json";
-import { FiCheck, FiX } from "react-icons/fi";
+import { FiCheck, FiX, FiDelete } from "react-icons/fi";
 import { toast } from "react-toastify";
 import dynamic from "next/dynamic";
 
@@ -136,6 +137,16 @@ export default function PagamentosPage() {
     }
   };
 
+  const handleDeletePayment = async (id: string) => {
+    try {
+      await deletePaymentRequest(id);
+      setPagamentos((prev) => prev.filter((p) => p.id !== id));
+      toast.success("Solicitação excluida com sucesso!");
+    } catch (error: Error | unknown) {
+      toast.error(error instanceof Error ? error.message : "Ocorreu um erro.");
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6">
       <div className="w-full justify-center items-center max-w-xs mx-auto mb-6">
@@ -176,6 +187,17 @@ export default function PagamentosPage() {
                 <span>💰 R$ {pagamento.amount.toFixed(2)}</span>
                 <span>📅 {formatDate(pagamento.createdAt)}</span>
               </div>
+              <div className="flex justify-between text-sm text-gray-600">
+                <button
+                  className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                  onClick={() =>
+                    handleDeletePayment(pagamento.id)
+                  }
+                >
+                  <FiDelete />
+                  Excluir
+                </button>
+              </div>
 
               {pagamento.status === "pending" && userData.role === "admin" && (
                 <div className="mt-2 flex gap-2">
@@ -190,16 +212,25 @@ export default function PagamentosPage() {
                     }
                     className="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"
                   >
-                   <div className="flex gap-2">
-                    <FiCheck />Aprovar
-                   </div>
+                    <div className="flex gap-2">
+                      <FiCheck />
+                      Aprovar
+                    </div>
                   </button>
                   <button
-                    onClick={() => handleStatusUpdate(pagamento.uid, "rejected", 0, pagamento.id)}
+                    onClick={() =>
+                      handleStatusUpdate(
+                        pagamento.uid,
+                        "rejected",
+                        0,
+                        pagamento.id
+                      )
+                    }
                     className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
                   >
                     <div className="flex gap-2">
-                    <FiX />Rejeitar
+                      <FiX />
+                      Rejeitar
                     </div>
                   </button>
                 </div>

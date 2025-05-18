@@ -4,6 +4,7 @@ import { auth, db } from "./firebase";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -185,4 +186,16 @@ export async function getPaymentRequests(uid: string) {
 
   const paymentRef = doc(db, "payment_requests", uid);
   return paymentRef;
+}
+
+export async function deletePaymentRequest(requestId: string) {
+  if (!userRef?.uid) {
+    throw new Error("Usuário nao autenticado.");
+  }
+  try {
+    const requestRef = doc(db, "payment_requests", requestId);
+    await deleteDoc(requestRef);
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : "Ocorreu um erro.");
+  }
 }
