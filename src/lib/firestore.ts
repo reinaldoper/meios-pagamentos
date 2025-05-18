@@ -173,15 +173,17 @@ export async function updatePaymentRequestStatus(
   await updateDoc(requestRef, { status });
 }
 
-export async function createWallet(balance: number = 0) {
+export async function createWallet(newBalance: number = 0) {
   if (!userRef?.uid) {
     throw new Error("Usuário nao autenticado.");
   }
+  const balance = await getUserWallet(userRef?.uid);
+  const createBalance = balance.balance += newBalance;
   const walletRef = doc(db, "wallets", userRef?.uid);
-
+  
   await setDoc(walletRef, {
     uid: userRef?.uid,
-    balance,
+    balance: createBalance,
     createdAt: Timestamp.now(),
   });
 }
