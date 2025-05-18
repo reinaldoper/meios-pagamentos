@@ -1,4 +1,3 @@
-
 import { Wallet } from "@/app/types/types";
 import { auth, db } from "./firebase";
 import {
@@ -72,7 +71,10 @@ export async function getUserWalletBalance(uid: string) {
   };
 }
 
-export async function updateWalletBalance(uid: string, valueToSubtract: number) {
+export async function updateWalletBalance(
+  uid: string,
+  valueToSubtract: number
+) {
   if (!userRef?.uid) {
     throw new Error("Usuário não autenticado.");
   }
@@ -86,7 +88,7 @@ export async function updateWalletBalance(uid: string, valueToSubtract: number) 
   const walletData = walletSnap.data();
 
   if (walletData.balance < valueToSubtract) {
-    return false; 
+    return false;
   }
 
   const newBalance = walletData.balance - valueToSubtract;
@@ -95,22 +97,29 @@ export async function updateWalletBalance(uid: string, valueToSubtract: number) 
   return true;
 }
 
-
 export async function createPaymentRequest(
   amount: number,
   description: string
 ) {
   try {
-    const ref = collection(db, "payment_requests");
-    const docRef = await addDoc(ref, {
-      uid: userRef?.uid,
-      amount,
-      description,
-      status: "pending",
-      createdAt: Timestamp.now(),
-    });
+    if (!userRef?.uid) {
+      throw new Error("Usuário não autenticado.");
+    }
+    const balance = await getUserWallet(userRef?.uid);
+    if (balance.balance < amount) {
+      throw new Error("Saldo insuficiente.");
+    } else {
+      const ref = collection(db, "payment_requests");
+      const docRef = await addDoc(ref, {
+        uid: userRef?.uid,
+        amount,
+        description,
+        status: "pending",
+        createdAt: Timestamp.now(),
+      });
 
-    return docRef.id;
+      return docRef.id;
+    }
   } catch (error: Error | unknown) {
     throw new Error(
       error instanceof Error ? error.message : "Ocorreu um erro."
@@ -130,7 +139,6 @@ export async function getUserPaymentRequests(uid: string) {
     const userData = userSnap.data();
     const isAdmin = userData.role === "admin";
     console.log(isAdmin);
-    
 
     const ref = collection(db, "payment_requests");
     const q = isAdmin
@@ -156,7 +164,6 @@ export async function getUserPaymentRequests(uid: string) {
     );
   }
 }
-
 
 export async function updatePaymentRequestStatus(
   requestId: string,
@@ -196,6 +203,8 @@ export async function deletePaymentRequest(requestId: string) {
     const requestRef = doc(db, "payment_requests", requestId);
     await deleteDoc(requestRef);
   } catch (error) {
-    throw new Error(error instanceof Error ? error.message : "Ocorreu um erro.");
+    throw new Error(
+      error instanceof Error ? error.message : "Ocorreu um erro."
+    );
   }
 }
