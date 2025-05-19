@@ -8,6 +8,9 @@ Este projeto é um painel de usuário desenvolvido com **Next.js 13+**, utilizan
 
 ![License](https://img.shields.io/github/license/reinaldoper/meios-pagamentos)
 
+![Build Status](https://img.shields.io/github/actions/workflow/status/reinaldoper/meios-pagamentos/ci.yml)
+
+
 
 ---
 
