@@ -6,6 +6,9 @@ Este projeto é um painel de usuário desenvolvido com **Next.js 13+**, utilizan
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/934ccc42-6524-44cf-bf55-b6e50d70f4e2/deploy-status)](https://app.netlify.com/projects/meios-de-pagamentos/deploys)
 
+![License](https://img.shields.io/github/license/reinaldoper/meios-pagamentos)
+
+
 ---
 
 ## Como funcionam as aprovações de pagamento em carteiras digitais
@@ -105,7 +108,7 @@ Este projeto é um painel de usuário desenvolvido com **Next.js 13+**, utilizan
 1. **Clone o repositório**
 
 ```bash
-git clone https://github.com/seu-usuario/meios-pagamentos.git
+git clone https://github.com/reinaldoper/meios-pagamentos.git
 cd meios-pagamentos
 npm install
 ```
