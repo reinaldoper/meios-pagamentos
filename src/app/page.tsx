@@ -8,7 +8,8 @@ import animationData from "../../public/animations/payment.json";
 import { FaSignInAlt, FaUserPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { ClimaTempo } from "./types/types";
-
+import animationDataClima from "../../public/animations/clima.json";
+import animationDataLoading from "../../public/animations/loading.json";
 
 export default function HomePage() {
   const [dadosClima, setDadosClima] = useState<ClimaTempo[]>([]);
@@ -16,7 +17,7 @@ export default function HomePage() {
   const [coords, setCoords] = useState({ latitude: 0, longitude: 0 });
 
   useEffect(() => {
-     function obterLocalizacao() {
+    function obterLocalizacao() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (posicao) => {
@@ -69,16 +70,36 @@ export default function HomePage() {
     return kelvin - 273.15;
   };
 
+  const climaAtual = () => {
+    const dataAtual = dadosClima.length - 1;
+    return dadosClima[dataAtual];
+  };
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 to-white px-4">
       <div className="bg-white p-8 rounded-2xl shadow-xl max-w-xl w-full text-center">
         <ul>
-          {dadosClima.length > 0 ? 
-            <>
-              <strong className="text-lime-300">Temperatura:</strong>{" "}
-              {convertKelvinToCelsius(dadosClima[0].temp).toFixed(2)}°C
-            </>
-            : <strong className="text-gray-900">Carregando dados climáticos...</strong>}
+          {dadosClima.length > 0 ? (
+            <span className="w-full max-w-xs mx-auto">
+              <Player
+                autoplay
+                loop
+                animationData={animationDataClima}
+                style={{ height: "100px", width: "100px" }}
+              />
+              <span className="text-lime-300">Temperatura:</span>{" "}
+              {convertKelvinToCelsius(climaAtual().temp).toFixed(2)}°C
+            </span>
+          ) : (
+            <strong className="text-gray-900 w-full max-w-xs mx-auto">
+              <Player
+                autoplay
+                loop
+                animationData={animationDataLoading}
+                style={{ height: "100px", width: "100px" }}
+              />
+              Carregando dados climáticos...
+            </strong>
+          )}
         </ul>
         <div className="w-full max-w-xs mx-auto mb-6">
           <Player
