@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@netlify/plugin-nextjs": "^5.11.1",
+    "axios": "^1.9.0",
     "firebase": "^11.7.1",
     "firebase-admin": "^13.4.0",
     "js-cookie": "^3.0.5",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/axios": "^0.14.4",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
