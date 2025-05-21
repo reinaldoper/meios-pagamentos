@@ -15,6 +15,11 @@ export default function HomePage() {
   const [dadosClima, setDadosClima] = useState<ClimaTempo[]>([]);
   const [loading, setLoading] = useState(true);
   const [coords, setCoords] = useState({ latitude: 0, longitude: 0 });
+  const [location, setLocation] = useState({
+      city: "",
+  });
+
+  const [erro, setErro] = useState(false);
 
   useEffect(() => {
     function obterLocalizacao() {
@@ -62,8 +67,30 @@ export default function HomePage() {
         setLoading(false);
       }
     }
-
     buscarDadosClimaticos();
+  }, [coords, loading]);
+
+  useEffect(() => {
+    const getLocation = async () => {
+      
+        const URL = `/api/location`;
+        const resposta = await fetch(URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const dados = await resposta.json();
+        console.log(dados);
+
+        if (!resposta.ok) {
+          toast.error("Erro ao buscar localização.");
+        } else {
+          setLocation(dados.message);
+          setErro(true);
+        }
+    };
+    getLocation();
   }, [coords, loading]);
 
   const convertKelvinToCelsius = (kelvin: number) => {
@@ -99,6 +126,14 @@ export default function HomePage() {
               />
               Carregando dados climáticos...
             </strong>
+          )}
+          {erro && (
+            <span className="w-full max-w-xs mx-auto">
+              <br />
+              <span className="text-lime-300">Localização:</span>{" "}
+              {location.city}
+              <br />
+            </span>
           )}
         </ul>
         <div className="w-full max-w-xs mx-auto mb-6">
