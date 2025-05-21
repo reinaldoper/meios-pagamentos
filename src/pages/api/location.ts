@@ -10,6 +10,7 @@ export default async function handler(
   }
 
   const { latitude, longitude } = req.body;
+  console.log(latitude, longitude);
 
   try {
     const response = await axios.get(

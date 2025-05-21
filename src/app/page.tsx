@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 const Player = dynamic(() => import("lottie-react"), { ssr: false });
@@ -45,10 +45,36 @@ export default function HomePage() {
     obterLocalizacao();
   }, []);
 
+  const getLocation = useCallback(async () => {
+        if(!loading) {
+          try {
+            const resposta = await fetch("/api/location", {
+              method: "POST",
+              body: JSON.stringify(coords),
+              headers: {
+                "Content-Type": "application/json",
+              }
+            });
+            const dados = await resposta.json();
+            if (!resposta.ok) {
+              toast.error("Erro ao buscar localização.");
+            } else {
+              setLocation(dados.message);
+              setErro(true);
+            }
+            
+          } catch (erro: Error | unknown) {
+            console.error("Erro ao buscar localização:", erro);
+            toast.error(erro instanceof Error ? erro.message : "Ocorreu um erro.");
+          } finally {
+            setLoading(false);
+          }
+        }
+    }, [coords, loading]);
+
   useEffect(() => {
     async function buscarDadosClimaticos() {
       try {
-        console.log(coords);
         if (!loading) {
           const resposta = await fetch("/api/clima-tempo", {
             method: "POST",
@@ -68,30 +94,8 @@ export default function HomePage() {
       }
     }
     buscarDadosClimaticos();
-  }, [coords, loading]);
-
-  useEffect(() => {
-    const getLocation = async () => {
-      
-        const URL = `/api/location`;
-        const resposta = await fetch(URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const dados = await resposta.json();
-        console.log(dados);
-
-        if (!resposta.ok) {
-          toast.error("Erro ao buscar localização.");
-        } else {
-          setLocation(dados.message);
-          setErro(true);
-        }
-    };
     getLocation();
-  }, [coords, loading]);
+  }, [coords, loading, getLocation]);
 
   const convertKelvinToCelsius = (kelvin: number) => {
     return kelvin - 273.15;
